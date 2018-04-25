@@ -1,0 +1,31 @@
+nav
+{
+    position: absolute;
+    z-index: 2;
+    top:0;
+    width: 100%;
+    background-color: transparent;
+    overflow: auto;
+}
+
+#nav-links-widescreen {
+    height: 50px;
+    float: right;
+}
+
+#nav-links-widescreen .nav-item {
+    display: inline-block;
+    padding: 0 12px;
+    line-height: 50px;
+    height: 100%;
+}
+
+#nav-links-widescreen a{
+    color: white;
+    text-decoration: none;
+}
+
+#nav-links-widescreen a:hover{
+    color: #13025a;
+    cursor: pointer;
+}

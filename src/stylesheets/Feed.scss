@@ -1,0 +1,32 @@
+.feed
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#feed-waiting
+{
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    img
+    {
+        display: inline-block;
+        width: 20vw;
+        height: 20vw;
+        margin:0 auto;
+    }
+    h2{
+        display: inline-block;
+        margin:0 auto;
+    }
+}
+
+#infinity-scroll-trigger
+{
+    height: 40vh;
+    width: 100%;
+    padding-top:25vh;
+}
