@@ -1,38 +1,8 @@
 import React from 'react';
-import request from 'request';
 import '../stylesheets/Feed.scss';
 import Card from './Card';
 import Query from '../model/Query';
-
-function retrieveArticles(query, region, category, page, component, newQuery) {
-  component.setState({ loading: true });
-  const options = {
-    method: 'GET',
-    url: 'https://cryptic-meadow-51342.herokuapp.com/api/articles',
-    qs: {
-      query, region, category, page: page.toString(),
-    },
-    headers:
-            {
-              'postman-token': '4b52a1ee-b693-47af-49b6-99185d51b069',
-              'cache-control': 'no-cache',
-            },
-  };
-
-  request(options, (error, response, body) => {
-    if (error) {
-      component.setState({ loading: false, lostConnection: true });
-      throw new Error(error);
-    }
-
-    body = JSON.parse(body);
-    body = JSON.parse(body);
-    component.pagesLoaded += 1;
-    let articles;
-    if (newQuery) { articles = body.articles; } else articles = component.state.articles.concat(body.articles);
-    component.setState({ articles, loading: false });
-  });
-}
+import { retrieveArticles, getAbstractBackground } from '../helpers/http-requests';
 
 
 class Feed extends React.Component {
@@ -40,52 +10,63 @@ class Feed extends React.Component {
     super(props);
     this.state = {
       articles: [],
-      initialState: true,
+      noResults: false,
       loading: false,
       lostConnection: false,
+      noMoreResults: false,
     };
     this.pagesLoaded = 0;
   }
 
   componentDidMount() {
     const self = this;
+
     window.onscroll = function (ev) {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        console.log('bottom');
-        console.log(self.props.query);
-        retrieveArticles(self.props.query.query, self.props.query.region, self.props.query.category, self.pagesLoaded + 1, self, false);
+      if (!self.state.noResults) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+          console.log('bottom');
+          const articles = self.state.articles;
+          self.setState({ loading: true });
+          retrieveArticles(self.props.query, self.pagesLoaded + 1, (newArticles) => {
+            self.setState({ loading: false, articles: articles.concat(newArticles), noMoreResults: !newArticles.length });
+            self.pagesLoaded += 1;
+          });
+        }
       }
     };
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({ query: newProps.query });
     this.pagesLoaded = 0;
-    retrieveArticles(newProps.query.query, newProps.query.query.region, newProps.query.category, this.pagesLoaded + 1, this, true);
+    const self = this;
+    self.setState({ noMoreResults: false, loading: true });
+    retrieveArticles(newProps.query, 1, (newArticles) => {
+      self.setState({ loading: false, articles: newArticles, noResults: !newArticles.length });
+      self.pagesLoaded = 1;
+    });
   }
 
   render() {
     return (
       <div className="feed container">
-        {this.state.articles.length === 0 ? emptyFeedMessage() : null}
+        {this.state.noResults ? emptyFeedMessage() : null
+           }
         {
                     this.state.articles.length > 0 ?
                         this.state.articles.map((article, i) => (<Card
-                          title={article.title}
-                          description={article.description}
-                          urlToImage={article.urlToImage}
+                          article={article}
+                          showModal={this.props.showModal}
                         />)) : null
                 }
-        <div id="infinity-scroll-trigger">
-          {
-                        this.state.lostConnection ? lostConnection() : null
-                    }
+        <div id="infinity-scroll-gap">
           {
             this.state.loading ?
-              <img src={require('../../public/loading-animation.svg')} />
+              <img id="loading-svg" src={require('../../public/loading-animation.svg')} />
                 : null
           }
-
+          {
+                this.state.noMoreResults ? <h1>end,Return</h1> : null
+            }
         </div>
       </div>);
   }
@@ -108,5 +89,6 @@ function lostConnection() {
     <h2>Lost Connection</h2>
           </div>);
 }
+
 
 export default Feed;

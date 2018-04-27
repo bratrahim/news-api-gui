@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
+import debounce from '../helpers/debounce';
 import '../stylesheets/SearchBox.css';
 import Query from '../model/Query';
-import { getTopicBackground } from '../resource_helpers/backgrounds';
+import { getTopicBackground } from '../helpers/backgrounds';
+
 
 
 class SearchBox extends React.Component {
@@ -16,8 +19,13 @@ class SearchBox extends React.Component {
       query: '',
     };
     this.slide = this.slide.bind(this);
+
     this.handleInput = this.handleInput.bind(this);
+      this.changeSearch = this.changeSearch.bind(this);
+      this.changeSearch = debounce(this.changeSearch,300);
   }
+
+
   componentDidMount() {
     this.props.processQuery(new Query(this.state.query, this.state.region, this.state.currentTopic));
   }
@@ -34,9 +42,14 @@ class SearchBox extends React.Component {
       self.setState({ currentTopic: this.state.nextTopic, nextTopic: null, slide: false });
     }, 200);
   }
+
+  changeSearch(query)
+  {
+      this.props.processQuery(query);
+  }
   handleInput(event) {
     this.setState({ query: event.target.value });
-    this.props.processQuery(new Query(event.target.value, this.state.region, this.state.currentTopic));
+    this.changeSearch(new Query(event.target.value, this.state.region, this.state.currentTopic));
   }
   render() {
     return (

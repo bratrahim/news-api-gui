@@ -24,9 +24,16 @@
     }
 }
 
-#infinity-scroll-trigger
+#infinity-scroll-gap
 {
-    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 20vh;
     width: 100%;
-    padding-top:25vh;
+}
+
+#loading-svg
+{
+    height: 100px;
 }
