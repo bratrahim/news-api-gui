@@ -1,4 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import PerfectScrollbar from 'perfect-scrollbar';
+import {Scrollbars} from 'react-custom-scrollbars';
+
 import Navigation from './Navigation';
 import '../stylesheets/App.css';
 import SearchBox from './SearchBox';
@@ -6,132 +9,119 @@ import Footer from './Footer';
 import Feed from './Feed';
 import Modal from './Modal';
 import Query from '../model/Query';
+import {enableBodyScroll, disableBodyScroll} from "body-scroll-lock";
+import {retrieveArticles} from "../helpers/http-requests";
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            currentTopic: 'business',
-            query: {},
-            modal: false
-        };
-        this.switchTopic = this.switchTopic.bind(this);
-        this.processQuery = this.processQuery.bind(this);
-        this.showModal = this.showModal.bind(this);
-        this.hideModal = this.hideModal.bind(this);
-    }
+  constructor() {
+    super();
+    this.state = {
+      currentTopic: 'business',
+      query: {},
+      modal: false,
+        articles:[],
+        feedLoading:false,
+        noMoreResults:false,
+        article:{}
+    };
 
-    componentWillMount() {
+      this.pagesLoaded = 0;
 
-    }
+    this.switchTopic = this.switchTopic.bind(this);
+    this.processQuery = this.processQuery.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+  }
 
-    switchTopic(topic) {
-        this.setState({currentTopic: topic});
-        const query = this.state.query;
-        query.category = topic;
-        this.setState({query});
-    }
+  componentDidMount()
+  {
+    const self = this;
+      self.setState({ feedLoading:true});
+      window.onscroll = function (ev) {
+          if (!self.state.noMoreResults) {
 
-    processQuery(query) {
-        if (query instanceof Query) {
-            this.setState({query});
-            console.log(query);
-        }
-    }
+              if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                  waiting(self);
+              }
+          }
+      };
+  }
 
-    showModal(article) {
-        var x = window.scrollX;
-        var y = window.scrollY;
-        let top = 0;
-        window.onscroll = function (e) {
-            window.scrollTo(x, y);
-        };
-        $('html').off("touchmove");
-        $('body').on("mousewheel",function(e, delta) {
-            let modal = document.getElementById("modal");
-            let previousTop = modal.style.top.substring(0,modal.style.top.indexOf('p'));
-            let newTop = (Number(previousTop)+ delta * 40);
-            if(delta<0 && -modal.offsetHeight<=modal.offsetTop-window.innerHeight*0.6)
-            {
-                modal.style.top = newTop +"px";
-            }
-            else if(delta>0 && modal.offsetTop<window.innerHeight*0.3)
-            {
-                console.log(modal.offsetTop);
-                modal.style.top = newTop +"px";
-            }
+  switchTopic(topic) {
+    this.setState({ currentTopic: topic });
+    const query = this.state.query;
+    query.category = topic;
+    this.pagesLoaded=1;
+    this.processQuery(query);
+  }
 
-            modal.style.transition = "top ease-out 0.1s";
-            e.preventDefault();
+  processQuery(query) {
+    const self = this;
+    if (query instanceof Query) {
+     self.setState({ query , feedLoading:true,noMoreResults:false});
+        self.pagesLoaded= 1;
+        retrieveArticles(query, self.pagesLoaded, (newArticles) => {
+            console.log(newArticles);
+            console.log(self.pagesLoaded);
+            self.setState({ articles: newArticles, feedLoading:false});
+
         });
-
-        let lastY;
-        $('body').on("touchmove",function(e) {
-            var currentY = e.originalEvent.touches[0].clientY;
-            let delta;
-            let distance;
-            if(currentY > lastY){
-                delta = 1;
-            }else if(currentY < lastY){
-                delta = -1;
-            }
-            distance = currentY - lastY;
-            lastY = currentY;
-            let modal = document.getElementById("modal");
-            modal.style.transition = null;
-            let previousTop = modal.style.top.substring(0,modal.style.top.indexOf('p'));
-            let newTop = (Number(previousTop)+ distance);
-            if(delta<0 && -modal.offsetHeight<=modal.offsetTop-window.innerHeight*0.6)
-            {
-                modal.style.top = newTop +"px";
-            }
-            else if(delta>0 && modal.offsetTop<window.innerHeight*0.3)
-            {
-                console.log(modal.offsetTop);
-                modal.style.top = newTop +"px";
-            }
-
-
-            e.preventDefault();
-        });
-
-        let work=true;
-        this.setState({modal: true});
+      console.log(query);
     }
+  }
 
-    hideModal() {
-        $('body').off("mousewheel");
-        enableScrolling();
+  showModal(article) {
+    this.setState({ modal: true,article });
+   // disableBodyScroll();
+  }
 
-        document.getElementById("modal").style.top =null;
-        document.getElementById("modal").style.transition = null;
-        this.setState({modal: false});
-    }
+  hideModal() {
+    this.setState({ modal: false });
+   // enableBodyScroll();
+  }
 
-    render() {
-        return (
-            <div className="App">
-                <Navigation switchTopic={this.switchTopic}/>
-                <SearchBox processQuery={this.processQuery} topic={this.state.currentTopic}/>
-                <Feed query={this.state.query} showModal={this.showModal}/>
-                <Footer/>
-                <Modal hideModal={this.hideModal} show={this.state.modal}/>
+  render() {
+
+    return (
+
+            <div className="App" id="app">
+
+                <Navigation switchTopic={this.switchTopic} />
+                <SearchBox processQuery={this.processQuery} topic={this.state.currentTopic} />
+                <Feed loading={this.state.feedLoading} query={this.state.query} articles={this.state.articles} showModal={this.showModal} />
+                <Footer />
+                <Modal article={this.state.article} hideModal={this.hideModal} show={this.state.modal} />
+
             </div>
-        );
-    }
+
+
+    );
+  }
 }
 
-function disableScrolling() {
-    var x = window.scrollX;
-    var y = window.scrollY;
-    window.onscroll = function () {
-        window.scrollTo(x, y);
-    };
-}
+function waiting(self) {
+    setTimeout(() => {
+        console.log('0.1');
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
 
-function enableScrolling() {
-    window.onscroll = function () {
-    };
+            console.log('bottom');
+            const articles = self.state.articles;
+
+            if (self.state.noMoreResults === false) {
+                self.setState({ feedLoading: true });
+                retrieveArticles(self.state.query, self.pagesLoaded + 1, (newArticles) => {
+                  console.log(newArticles);
+                  console.log(self.pagesLoaded + 1);
+                    if (newArticles.length > 0) {
+                        self.setState({ feedLoading: false, articles: articles.concat(newArticles), noMoreResults: !newArticles.length });
+                        self.pagesLoaded += 1;
+                    } else {
+                        self.setState({ feedLoading: false, noMoreResults: !newArticles.length });
+                    }
+                });
+            }
+        }
+    }, 200);
 }
 
 export default App;

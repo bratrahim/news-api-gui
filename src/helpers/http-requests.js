@@ -18,10 +18,10 @@ function retrieveArticles(query, page, cb) {
   };
 
   request(options, (error, response, body) => {
-    if (error) {
+    if (error || response.status) {
       throw new Error(error);
     }
-
+  console.log(response);
     body = JSON.parse(body);
     body = JSON.parse(body);
 

@@ -11,7 +11,6 @@ class Feed extends React.Component {
     this.state = {
       articles: [],
       noResults: false,
-      loading: false,
       lostConnection: false,
       noMoreResults: false,
     };
@@ -21,29 +20,9 @@ class Feed extends React.Component {
   componentDidMount() {
     const self = this;
 
-    window.onscroll = function (ev) {
-      if (!self.state.noResults) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-          console.log('bottom');
-          const articles = self.state.articles;
-          self.setState({ loading: true });
-          retrieveArticles(self.props.query, self.pagesLoaded + 1, (newArticles) => {
-            self.setState({ loading: false, articles: articles.concat(newArticles), noMoreResults: !newArticles.length });
-            self.pagesLoaded += 1;
-          });
-        }
-      }
-    };
   }
 
   componentWillReceiveProps(newProps) {
-    this.pagesLoaded = 0;
-    const self = this;
-    self.setState({ noMoreResults: false, loading: true });
-    retrieveArticles(newProps.query, 1, (newArticles) => {
-      self.setState({ loading: false, articles: newArticles, noResults: !newArticles.length });
-      self.pagesLoaded = 1;
-    });
   }
 
   render() {
@@ -52,15 +31,15 @@ class Feed extends React.Component {
         {this.state.noResults ? emptyFeedMessage() : null
            }
         {
-                    this.state.articles.length > 0 ?
-                        this.state.articles.map((article, i) => (<Card
+                    this.props.articles.length > 0 ?
+                        this.props.articles.map((article, i) => (<Card
                           article={article}
                           showModal={this.props.showModal}
                         />)) : null
                 }
         <div id="infinity-scroll-gap">
           {
-            this.state.loading ?
+            this.props.loading ?
               <img id="loading-svg" src={require('../../public/loading-animation.svg')} />
                 : null
           }

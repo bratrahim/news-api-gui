@@ -16,10 +16,14 @@
   "author": "Tomas Kovtun",
   "license": "ISC",
   "dependencies": {
+    "body-scroll-lock": "^2.3.8",
     "fs": "0.0.1-security",
     "lodash": "^4.17.10",
+    "perfect-scrollbar": "^1.3.0",
     "react": "^16.3.2",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.3.2",
+    "react-scrolllock": "^2.0.5",
     "request": "^2.85.0"
   },
   "babel": {
