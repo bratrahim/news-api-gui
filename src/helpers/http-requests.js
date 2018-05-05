@@ -12,7 +12,6 @@ function retrieveArticles(query, page, cb) {
     },
     headers:
             {
-              'postman-token': '4b52a1ee-b693-47af-49b6-99185d51b069',
               'cache-control': 'no-cache',
             },
   };
@@ -21,7 +20,7 @@ function retrieveArticles(query, page, cb) {
     if (error || response.status) {
       throw new Error(error);
     }
-  console.log(response);
+    console.log(response);
     body = JSON.parse(body);
     body = JSON.parse(body);
 

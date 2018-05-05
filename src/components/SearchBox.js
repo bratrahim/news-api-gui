@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import debounce from '../helpers/debounce';
-import '../stylesheets/SearchBox.css';
+import img_science from '../../public/topic_backgrounds/science.jpg';
+import img_general from '../../public/topic_backgrounds/general.jpg';
+import img_tech from '../../public/topic_backgrounds/tech.jpg';
+import img_business from '../../public/topic_backgrounds/business.jpg';
+import '../stylesheets/SearchBox.scss';
 import Query from '../model/Query';
-import { getTopicBackground } from '../helpers/backgrounds';
-
+// import { getTopicBackground } from '../helpers/backgrounds';
 
 
 class SearchBox extends React.Component {
@@ -21,8 +23,8 @@ class SearchBox extends React.Component {
     this.slide = this.slide.bind(this);
 
     this.handleInput = this.handleInput.bind(this);
-      this.changeSearch = this.changeSearch.bind(this);
-      this.changeSearch = debounce(this.changeSearch,300);
+    this.changeSearch = this.changeSearch.bind(this);
+    this.changeSearch = debounce(this.changeSearch, 300);
   }
 
 
@@ -43,9 +45,8 @@ class SearchBox extends React.Component {
     }, 200);
   }
 
-  changeSearch(query)
-  {
-      this.props.processQuery(query);
+  changeSearch(query) {
+    this.props.processQuery(query);
   }
   handleInput(event) {
     this.setState({ query: event.target.value });
@@ -69,6 +70,10 @@ class SearchBox extends React.Component {
         <input onChange={this.handleInput} id="search-input" type="text" placeholder="Situation in Syria" />
 
         <div id="languages" />
+        <img style={{ display: 'none' }} src={img_tech} />
+        <img style={{ display: 'none' }} src={img_science} />
+        <img style={{ display: 'none' }} src={img_business} />
+        <img style={{ display: 'none' }} src={img_general} />
       </div>);
   }
 }
@@ -76,5 +81,14 @@ class SearchBox extends React.Component {
 SearchBox.propTypes = { topic: PropTypes.string };
 SearchBox.defaultProps = { topic: 'business' };
 SearchBox.propTypes = { processQuery: PropTypes.func.isRequired };
+
+const topicBackgrounds = {
+  business: img_business,
+  science: img_science,
+  technology: img_tech,
+  general: img_general,
+};
+
+const getTopicBackground = topic => topicBackgrounds[topic];
 
 export default SearchBox;

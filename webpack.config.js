@@ -47,10 +47,12 @@ module.exports = {
                 },
                 {
                     test: /\.(png|svg|jpg|gif)$/,
+                    exclude: path.resolve(__dirname, 'public/cross.svg'),
                     use: [
                         'file-loader'
                     ]
-                }
+                },
+                { test: path.resolve(__dirname, 'public/cross.svg'), loader: 'svg-inline-loader' }
 
             ]
     },

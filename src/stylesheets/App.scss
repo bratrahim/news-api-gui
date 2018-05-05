@@ -1,0 +1,110 @@
+@import "./normalize.css";
+@import "./hamburgers.min.css";
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.6em;
+    letter-spacing: .03em;
+    line-height: 1.6;
+
+    background: #C9D6FF; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 300;
+    letter-spacing: -.1rem;
+    margin-bottom: 2.0rem;
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 4.6rem;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 3.6rem;
+    line-height: 1.25;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 400px) {
+    .container {
+        width: 85%;
+        padding: 0;
+    }
+}
+
+@media (min-width: 550px) {
+    .container {
+        width: 80%;
+    }
+}
+
+blockquote.twitter-tweet {
+    display: inline-block;
+    padding: 16px;
+    margin: 10px 0;
+    max-width: 468px;
+    border: #ddd 1px solid;
+    border-top-color: #eee;
+    border-bottom-color: #bbb;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    font: bold 14px/18px Helvetica, Arial, sans-serif;
+    color: #000;
+}
+
+blockquote.twitter-tweet {
+    width: 80%;
+    margin: auto;
+}
+
+#loading-svg {
+    display: block;
+    height: 100px;
+    width: 100px;
+    margin: 0 auto;
+}
+
+.centered {
+    text-align: center;
+}
+
+span.main-color {
+    text-align: center;
+    color: #4b134f;
+}
+
+/*
+blockquote.twitter-tweet p {
+  font: normal 18px/24px Georgia, "Times New Roman", Palatino, serif;
+  margin: 0 5px 10px 0;
+}
+
+blockquote.twitter-tweet a[href^="https://twitter.com"] {
+  font-weight: normal;
+  color: #666;
+  font-size: 12px;
+}*/

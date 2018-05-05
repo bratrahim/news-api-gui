@@ -14,12 +14,14 @@ const abstractBackgrounds = [
   'https://images.unsplash.com/photo-1477336074447-9d9d6d10c422?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=38af603a4b081b51489a1975ef624a32&auto=format&fit=crop&w=1350&q=80',
 ];
 
+const whiteTextBackgrounds = [
+  '#F44336', '#E91E63', '#673AB7', '#EF6C00', '#F4511E', '#795548', '#FDD835',
+];
+
 const getTopicBackground = topic => topicBackgrounds[topic];
 
 
+const getAbstractBackground = title => abstractBackgrounds[title.charCodeAt(2) % abstractBackgrounds.length];
 
-const getAbstractBackground = title => abstractBackgrounds[title.charCodeAt(2)%abstractBackgrounds.length];
-
-export { getTopicBackground, getAbstractBackground };
-
-
+const getWhiteTextBackground = title => whiteTextBackgrounds[(title.charCodeAt(2) + title.charCodeAt(3)) % whiteTextBackgrounds.length];
+export { getTopicBackground, getAbstractBackground, getWhiteTextBackground };

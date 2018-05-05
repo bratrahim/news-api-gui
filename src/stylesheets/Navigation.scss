@@ -1,0 +1,121 @@
+
+nav
+{
+    width: 100%;
+}
+#nav-links-widescreen
+{
+    display: none;
+    position: absolute;
+    z-index: 2;
+    top:0;
+    right:0;
+    background-color: transparent;
+    overflow: auto;
+    height: 50px;
+}
+
+#nav-links-widescreen .nav-item {
+    display: inline-block;
+    padding: 0 12px;
+    line-height: 50px;
+    height: 100%;
+}
+
+#nav-links-widescreen a{
+    color: white;
+    text-decoration: none;
+    letter-spacing: .1em;
+}
+
+#nav-links-widescreen a:hover{
+    color: #c94b4b;
+    cursor: pointer;
+}
+
+#nav-links-mobile
+{
+    display: block;
+    position:fixed;
+
+    background: #c94b4b;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4b134f, #c94b4b);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4b134f, #c94b4b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-size: 300% 100%;
+    background-position: left;
+
+    right:0;
+    overflow-x: hidden;
+    z-index: 4;
+    width: 0;
+    height: 100vh;
+    transition: width ease-in 0.2s;
+    -webkit-box-shadow: 0px 0px 58px 4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 58px 4px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 58px 4px rgba(0,0,0,0.75);
+
+}
+#mobile-nav-heading
+{
+    font-size: 1.8em;
+}
+
+#nav-links-mobile .nav-items
+{
+  display: inline-block;
+    letter-spacing: 0.12em;
+    font-size: 1.7em;
+    color:white;
+    float: left;
+    margin-left:60px;
+    margin-top:90px;
+    .nav-item
+    {
+        padding:0 5px;
+        background-size: 200% 100%;
+        background-image: linear-gradient(to right, transparentize(white,1) 50%, #2E7D32 50%);
+        transition: background-position linear 0.2s;
+    }
+}
+
+#nav-links-mobile .nav-item:hover
+{
+    cursor: pointer;
+    //color: #c94b4b;
+    background-position: -100% 0;
+}
+
+#nav-links-mobile.is-active
+{
+    width: 70vw;
+}
+.hamburger
+{
+    display:block;
+    position: absolute;
+    top:10px;
+    right:10px;
+    z-index: 5;
+    &:focus
+    {
+        outline:0;
+    }
+}
+.hamburger-inner, .hamburger-inner:after, .hamburger-inner:before {
+    background-color: white!important;
+}
+
+@media (min-width: 550px) {
+    #nav-links-mobile
+    {
+        display: none;
+    }
+    #nav-links-widescreen
+    {
+        display: inline-block;
+    }
+    .hamburger
+    {
+        display:none!important;
+    }
+}

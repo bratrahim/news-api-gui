@@ -1,10 +1,10 @@
 .card
 {
-
     position: relative;
     width: 300px;
     margin: 10px;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(255,255,255,0.5);
+    transition: box-shadow ease-in 0.05s;
 }
 
 .card:hover
@@ -26,6 +26,7 @@
 
 .card-caption
 {
+
     font-weight: 100;
     padding: 15px;
 }
@@ -44,12 +45,47 @@
     margin: 0;
 }
 
+ .caption-bottom
+{
+    height: 35px;
+}
 .button-read-more
 {
-    background-color: white;
+    position: absolute;
+    color:white;
+    bottom: 10px;
+    right: 10px;
     height: 35px;
     border: none;
     padding: 0 15px;
-    float: right;
-    margin: 15px 0;
+
+    background: #c94b4b;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4b134f, #c94b4b);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4b134f, #c94b4b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-size: 200px;
+    -webkit-transition: background 0.3s ease-out;
+    -moz-transition: background 0.3s ease-out;
+    -o-transition: background 0.3s ease-out;
+    transition: background 0.3s ease-out;
+    &:hover
+    {
+        cursor: pointer;
+        //background-position: -300px;
+    }
+}
+
+.button-topic
+{
+    color:white;
+    padding:1px 8px;
+    text-decoration: none;
+    //background-color: #4b134f;
+    border: solid 1px white;
+}
+
+@media (max-width: 816px) {
+    .card
+    {
+        width: 100%;
+    }
 }

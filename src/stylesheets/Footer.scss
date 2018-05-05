@@ -1,6 +1,19 @@
 #footer
 {
-  min-height:100px;
-  width: 100%;
-  background-color: #13025a;
+  background-color: #4b134f;
+  overflow-y: auto;
+  padding: 50px 20px 10px 20px;
+  h5
+  {
+    font-size: 0.9em;
+    letter-spacing: 0.1em;
+    color: white;
+    text-align: right;
+    margin-bottom: 0;
+  }
+  a
+  {
+    color: #2E7D32;
+    text-decoration: none;
+  }
 }

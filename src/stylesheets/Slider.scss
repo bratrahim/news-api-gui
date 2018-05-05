@@ -1,0 +1,11 @@
+#tweet-slider
+{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .twitter-tweet
+  {
+    width: 100%!important;
+  }
+}

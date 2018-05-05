@@ -1,6 +1,7 @@
 import React from 'react';
 import '../stylesheets/Feed.scss';
 import Card from './Card';
+import Loading from './Loading';
 import Query from '../model/Query';
 import { retrieveArticles, getAbstractBackground } from '../helpers/http-requests';
 
@@ -19,7 +20,6 @@ class Feed extends React.Component {
 
   componentDidMount() {
     const self = this;
-
   }
 
   componentWillReceiveProps(newProps) {
@@ -40,7 +40,7 @@ class Feed extends React.Component {
         <div id="infinity-scroll-gap">
           {
             this.props.loading ?
-              <img id="loading-svg" src={require('../../public/loading-animation.svg')} />
+              <Loading />
                 : null
           }
           {

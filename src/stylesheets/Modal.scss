@@ -9,19 +9,62 @@
   left:0;
   right:0;
   background-color: rgba(0,0,0,0.2);
-  transition: top ease-out 0.5s;
+  transition: top ease-out 0.3s;
   overflow: auto;
   .modal-image
   {
     width:100%;
+    height:40vh;
+    background-position: center center;
+    background-size: cover;
+
   }
   &::-webkit-scrollbar {
     //width: 0px;
   }
   #content
   {
-    height:1300px;
-    background-image: url(https://images.unsplash.com/photo-1518895949257-7621c3c786d7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f60d3baea4a9463138743b01c0011045&auto=format&fit=crop&w=634&q=80);
+    background-color: #EEEEEE;
+    background-image: url("https://www.transparenttextures.com/patterns/bedge-grunge.png");
+  }
+
+  .article-heading
+  {
+    line-height: 1;
+    font-size: 2em;
+  }
+  .author-heading
+  {
+    font-size: 1.2em;
+    margin-bottom: 3px;
+    .author
+    {
+      color: grey;
+      &:hover
+      {
+        cursor: pointer;
+        color:#4b134f;
+      }
+    }
+  }
+  .timestamp-heading
+  {
+    color:#2E7D32;
+    font-size: .9em;
+
+  }
+  .article-link
+  {
+    background-color: #2E7D32;
+    font-size: .9em;
+    color:white;
+    padding: 3px 8px;
+    text-decoration: none;
+  }
+  .modal-article
+  {
+    min-height: 45vh;
+    padding: 30px;
   }
   &.active
   {
@@ -43,5 +86,27 @@
   &.active
   {
     display: block;
+  }
+}
+
+#close-icon
+{
+  display: inline-block;
+  position: absolute;
+  z-index: 3;
+  top:10px;
+  right:15px;
+  width: 40px;
+  height: 40px;
+  -webkit-filter: drop-shadow( 0 0 2px #000 );
+  filter: drop-shadow( 0 0 2px #000 );
+  svg
+  {
+    fill:#FAFAFA;
+  }
+  svg:hover
+  {
+    cursor:pointer;
+    fill:#c94b4b;
   }
 }
